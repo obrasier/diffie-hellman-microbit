@@ -113,8 +113,8 @@ while True:
     message = create_message(receiver, encrypted_text)
     radio.send(message)
     show_and_sleep(Image.ARROW_E, 1000)
-  # show unlocked symbol if we're ready to communicate
+  # show locked symbol if we're ready to communicate
   if encrypted:
-    display.show(Image(UNLOCKED))
-  else:
     display.show(Image(LOCKED))
+  else:
+    display.show(Image(UNLOCKED))
