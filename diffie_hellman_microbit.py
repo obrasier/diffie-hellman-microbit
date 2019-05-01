@@ -24,7 +24,7 @@ import radio
 ME = 'Alice'
 RECEIVER = 'Bob'
 # does not support accented characters
-text = 'secret message'
+TEXT = 'secret message'
 # your secret key, set this and don't tell anyone, this must be kept private
 MY_SECRET_KEY = 6
 
@@ -41,7 +41,7 @@ UNLOCKED = '00900:09090:09000:09990:09990'
 LOCKED = '00900:09090:09090:09990:09990'
 
 # This is the calculated key that we can send publicly to perform the key exchange
-calculated_key = (SHARED_BASE**MY_SECRET_KEY) % SHARED_PRIME
+CALCULATED_KEY = (SHARED_BASE**MY_SECRET_KEY) % SHARED_PRIME
 
 def create_message(destination, payload):
   '''Create a message to be send to the destination.'''
@@ -100,7 +100,7 @@ while True:
         offset = shared_secret % 26
         encrypted = True
         if not key_sent:
-          message = create_message(RECEIVER, calculated_key)
+          message = create_message(RECEIVER, CALCULATED_KEY)
           radio.send(message)
           key_sent = True
         show_and_sleep(Image(KEY), 2000)
@@ -111,13 +111,13 @@ while True:
         display.scroll(decrypted)
   # Press button A to perform the key exchange.
   if button_a.was_pressed():
-    message = create_message(RECEIVER, calculated_key)
+    message = create_message(RECEIVER, CALCULATED_KEY)
     radio.send(message)
     key_sent = True
     display.show(Image(KEY))
   # Press button B to send the encrypted message
   if button_b.was_pressed() and encrypted:
-    encrypted_text = encrypt(text, offset)
+    encrypted_text = encrypt(TEXT, offset)
     message = create_message(RECEIVER, encrypted_text)
     radio.send(message)
     show_and_sleep(Image.ARROW_E, 1000)
